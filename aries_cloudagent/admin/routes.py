@@ -14,6 +14,7 @@ from ..messaging.credential_definitions.routes import (
 from ..messaging.basicmessage.routes import register as register_basicmessages
 from ..messaging.discovery.routes import register as register_discovery
 from ..messaging.trustping.routes import register as register_trustping
+from ..messaging.raspberrypi_interactions.routes import register as register_raspberrypi_interactions
 
 
 async def register_module_routes(app: web.Application):
@@ -33,3 +34,4 @@ async def register_module_routes(app: web.Application):
     await register_basicmessages(app)
     await register_discovery(app)
     await register_trustping(app)
+    await register_raspberrypi_interactions(app)
