@@ -7,7 +7,7 @@ READ_SENSOR_RESPONSE = f"{MESSAGE_FAMILY}/read_sensor_response"
 DISPLAY_TEXT = f"{MESSAGE_FAMILY}/display_text"
 
 MESSAGE_TYPES = {
-	READ_SENSOR: f"{MESSAGE_PACKAGE}.read_sensor.ReadSensor",
-    READ_SENSOR_RESPONSE: f"{MESSAGE_PACKAGE}.read_sensor_response.ReadSensorResponse",
-    DISPLAY_TEXT: f"{MESSAGE_PACKAGE}.display_text.DisplayText"
+	READ_SENSOR: "aries_cloudagent.messaging.raspberrypi_interactions." + "messages.read_sensor.ReadSensor",
+    READ_SENSOR_RESPONSE: "aries_cloudagent.messaging.raspberrypi_interactions." +"messages.read_sensor_response.ReadSensorResponse",
+    DISPLAY_TEXT: "aries_cloudagent.messaging.raspberrypi_interactions." + "messages.display_text.DisplayText"
 }

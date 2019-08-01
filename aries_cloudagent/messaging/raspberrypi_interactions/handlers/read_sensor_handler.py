@@ -4,7 +4,7 @@ from ...base_handler import BaseHandler, BaseResponder, RequestContext
 from ...connections.manager import ConnectionManager
 
 from ..messages.read_sensor import ReadSensor
-from ..messages.read_sensor_reply import ReadSensorResponse
+from ..messages.read_sensor_response import ReadSensorResponse
 
 from sense_hat import SenseHat
 
