@@ -38,7 +38,7 @@ class ReadSensor(AgentMessage):
 
         Args:
             sent_time: Time message was sent
-            content: message content
+            sensors: the sensors that need to be read from raspberry pi
         """
         super(ReadSensor, self).__init__(**kwargs)
         if not sent_time:
@@ -58,5 +58,4 @@ class ReadSensorSchema(AgentMessageSchema):
         model_class = ReadSensor
 
     sent_time = fields.Str(required=False)
-    content = fields.Str(required=True)
     sensors = fields.List(fields.Str(), required=True)

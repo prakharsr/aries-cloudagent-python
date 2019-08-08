@@ -39,7 +39,7 @@ class ReadSensorHandler(BaseHandler):
 
         await responder.send_webhook(
             "read_sensor",
-            {"message_id": context.message._id, "content": body, "state": "received"},
+            {"message_id": context.message._id, "sensors": sensors, "state": "received"},
         )
 
         sense = SenseHat()
