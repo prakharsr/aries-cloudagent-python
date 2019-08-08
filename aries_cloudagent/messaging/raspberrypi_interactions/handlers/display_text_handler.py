@@ -26,7 +26,7 @@ class DisplayTextHandler(BaseHandler):
         self._logger.info("Received text: %s", context.message.content)
 
         body = context.message.content
-        read_temperature = context.message.scroll_speed
+        scroll_speed = context.message.scroll_speed
         back_colour = context.message.back_colour
         text_colour = context.message.text_colour
         meta = {"content": body, 
