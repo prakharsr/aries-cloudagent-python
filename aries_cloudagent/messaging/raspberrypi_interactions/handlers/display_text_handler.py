@@ -25,11 +25,11 @@ class DisplayTextHandler(BaseHandler):
 
         self._logger.info("Received text: %s", context.message.content)
 
-        body = context.message.content
+        content = context.message.content
         scroll_speed = context.message.scroll_speed
         back_colour = context.message.back_colour
         text_colour = context.message.text_colour
-        meta = {"content": body, 
+        meta = {"content": content, 
                 "scroll_speed" : scroll_speed,
                 "text_colour" : text_colour, 
                 "back_colour" : back_colour}
@@ -48,7 +48,7 @@ class DisplayTextHandler(BaseHandler):
 
         await responder.send_webhook(
             "display_text",
-            {"message_id": context.message._id, "content": body, "state": "received"},
+            {"message_id": context.message._id, "content": content, "state": "received"},
         )
 
         sense = SenseHat()
