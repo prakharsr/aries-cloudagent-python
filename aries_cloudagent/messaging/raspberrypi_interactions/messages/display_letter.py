@@ -12,7 +12,7 @@ from ..message_types import DISPLAY_LETTER
 
 HANDLER_CLASS = (
     "aries_cloudagent.messaging.raspberrypi_interactions."
-    + "handlers.display_text_handler.DisplayLetterHandler"
+    + "handlers.display_letter_handler.DisplayLetterHandler"
 )
 
 
@@ -24,7 +24,7 @@ class DisplayLetter(AgentMessage):
 
         handler_class = HANDLER_CLASS
         message_type = DISPLAY_LETTER
-        schema_class = "DisplayTextSchema"
+        schema_class = "DisplayLetterSchema"
 
     def __init__(
         self,

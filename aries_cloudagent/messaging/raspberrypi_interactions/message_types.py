@@ -10,7 +10,7 @@ DISPLAY_LETTER = f"{MESSAGE_FAMILY}/display_letter"
 MESSAGE_TYPES = {
 	READ_SENSOR: "aries_cloudagent.messaging.raspberrypi_interactions." + "messages.read_sensor.ReadSensor",
     SENSOR_VALUE: "aries_cloudagent.messaging.raspberrypi_interactions." +"messages.sensor_value.SensorValue",
-    DISPLAY_MESSAGE: "aries_cloudagent.messaging.raspberrypi_interactions." + "messages.display_text.DisplayMessage",
-    DISPLAY_LETTER: "aries_cloudagent.messaging.raspberrypi_interactions." + "messages.display_text.DisplayLetter"
+    DISPLAY_MESSAGE: "aries_cloudagent.messaging.raspberrypi_interactions." + "messages.display_message.DisplayMessage",
+    DISPLAY_LETTER: "aries_cloudagent.messaging.raspberrypi_interactions." + "messages.display_letter.DisplayLetter"
 
 }
