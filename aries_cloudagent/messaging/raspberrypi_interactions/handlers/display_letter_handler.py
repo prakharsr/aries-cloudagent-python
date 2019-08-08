@@ -3,13 +3,13 @@
 from ...base_handler import BaseHandler, BaseResponder, RequestContext
 from ...connections.manager import ConnectionManager
 
-from ..messages.display_text import DisplayText
+from ..messages.display_letter import DisplayLetter
 from ...basicmessage.messages.basicmessage import BasicMessage
 
 from sense_hat import SenseHat
 
 
-class DisplayTextHandler(BaseHandler):
+class DisplayMessageHandler(BaseHandler):
     """Message handler class for basic messages."""
 
     async def handle(self, context: RequestContext, responder: BaseResponder):
@@ -20,42 +20,36 @@ class DisplayTextHandler(BaseHandler):
             context: request context
             responder: responder callback
         """
-        self._logger.debug(f"DisplayTextHandler called with context {context}")
+        self._logger.debug(f"DisplayMessageHandler called with context {context}")
         assert isinstance(context.message, DisplayText)
 
-        self._logger.info("Received text: %s", context.message.content)
+        self._logger.info("Received letter: %s", context.message.letter)
 
-        content = context.message.content
-        scroll_speed = context.message.scroll_speed
+        letter = context.message.letter
         back_colour = context.message.back_colour
         text_colour = context.message.text_colour
-        meta = {"content": content, 
-                "scroll_speed" : scroll_speed,
+        meta = {"letter": letter, 
                 "text_colour" : text_colour, 
                 "back_colour" : back_colour}
-
-        # For Workshop: mark invitations as copyable
-        if context.message.content and context.message.content.startswith("http"):
-            meta["copy_invite"] = True
 
         conn_mgr = ConnectionManager(context)
         await conn_mgr.log_activity(
             context.connection_record,
-            "display_text",
+            "display_letter",
             context.connection_record.DIRECTION_RECEIVED,
             meta,
         )
 
         await responder.send_webhook(
-            "display_text",
-            {"message_id": context.message._id, "content": content, "state": "received"},
+            "display_letter",
+            {"message_id": context.message._id, "letter": letter, "state": "received"},
         )
 
         sense = SenseHat()
         sense.clear()
         sense.show_message(content, text_colour=text_colour, back_colour=back_colour, scroll_speed=scroll_speed)
 
-        reply_msg = BasicMessage(content="Display Text Message received")
+        reply_msg = BasicMessage(content="DisplayLetter message received")
             
         await responder.send_reply(reply_msg)
         await conn_mgr.log_activity(

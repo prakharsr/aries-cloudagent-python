@@ -8,23 +8,23 @@ from marshmallow import fields
 from ...agent_message import AgentMessage, AgentMessageSchema
 from ...util import datetime_now, datetime_to_str
 
-from ..message_types import DISPLAY_TEXT
+from ..message_types import DISPLAY_MESSAGE
 
 HANDLER_CLASS = (
     "aries_cloudagent.messaging.raspberrypi_interactions."
-    + "handlers.display_text_handler.DisplayTextHandler"
+    + "handlers.display_message_handler.DisplayMessageHandler"
 )
 
 
-class DisplayText(AgentMessage):
+class DisplayMessage(AgentMessage):
     """Class defining the structure of a raspberry pi request message."""
 
     class Meta:
         """Basic message metadata class."""
 
         handler_class = HANDLER_CLASS
-        message_type = DISPLAY_TEXT
-        schema_class = "DisplayTextSchema"
+        message_type = DISPLAY_MESSAGE
+        schema_class = "DisplayMessageSchema"
 
     def __init__(
         self,
@@ -43,7 +43,7 @@ class DisplayText(AgentMessage):
             sent_time: Time message was sent
             content: message content
         """
-        super(DisplayText, self).__init__(**kwargs)
+        super(DisplayMessage, self).__init__(**kwargs)
         if not sent_time:
             sent_time = datetime_now()
         self.sent_time = datetime_to_str(sent_time)
@@ -60,13 +60,13 @@ class DisplayText(AgentMessage):
         
 
 
-class DisplayTextSchema(AgentMessageSchema):
+class DisplayMessageSchema(AgentMessageSchema):
     """Basic message schema class."""
 
     class Meta:
         """Basic message schema metadata."""
 
-        model_class = DisplayText
+        model_class = DisplayMessage
 
     sent_time = fields.Str(required=False)
     content = fields.Str(required=True)

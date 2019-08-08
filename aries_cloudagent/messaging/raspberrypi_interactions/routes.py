@@ -13,12 +13,6 @@ from ..connections.models.connection_record import ConnectionRecord
 from .messages.read_sensor import ReadSensor
 
 
-# class ReadSensorSchema(Schema):
-#     """Request schema for sending a message."""
-
-#     content = fields.Str()
-
-
 @docs(tags=["read_sensor"], summary="Send a read_sensor message to a connection")
 # @request_schema(ReadSensorSchema())
 async def connections_send_read_sensor_request(request: web.BaseRequest):
@@ -40,7 +34,7 @@ async def connections_send_read_sensor_request(request: web.BaseRequest):
         raise web.HTTPNotFound()
 
     if connection.is_ready:
-        msg = ReadSensor(content=params["content"])
+        msg = ReadSensor(sensors=params["sensors"])
         await outbound_handler(msg, connection_id=connection_id)
 
         conn_mgr = ConnectionManager(context)
@@ -48,14 +42,14 @@ async def connections_send_read_sensor_request(request: web.BaseRequest):
             connection,
             "read_sensor",
             connection.DIRECTION_SENT,
-            {"content": params["content"]},
+            {"sensors": params["sensors"]},
         )
 
     return web.json_response({})
 
-@docs(tags=["display_text"], summary="Send a display_text message to a connection")
+@docs(tags=["display_message"], summary="Send a display_message message to a connection")
 # @request_schema(ReadSensorSchema())
-async def connections_send_display_text_request(request: web.BaseRequest):
+async def connections_send_display_message_request(request: web.BaseRequest):
     """
     Request handler for sending a raspberry pi read Sensor requestto a connection.
 
@@ -74,19 +68,57 @@ async def connections_send_display_text_request(request: web.BaseRequest):
         raise web.HTTPNotFound()
 
     if connection.is_ready:
-        msg = DisplayText(content=params["content"])
+        msg = DisplayMessage(content=params["content"],
+                            scroll_speed=params["scroll_speed"],
+                            text_colour=params["text_colour"],
+                            back_colour=params["back_colour"])
         await outbound_handler(msg, connection_id=connection_id)
 
         conn_mgr = ConnectionManager(context)
         await conn_mgr.log_activity(
             connection,
-            "display_text",
+            "display_message",
             connection.DIRECTION_SENT,
             {"content": params["content"]},
         )
 
     return web.json_response({})
 
+@docs(tags=["display_letter"], summary="Send a display_letter message to a connection")
+# @request_schema(ReadSensorSchema())
+async def connections_send_display_letter_request(request: web.BaseRequest):
+    """
+    Request handler for sending a raspberry pi read Sensor requestto a connection.
+
+    Args:
+        request: aiohttp request object
+
+    """
+    context = request.app["request_context"]
+    connection_id = request.match_info["id"]
+    outbound_handler = request.app["outbound_message_router"]
+    params = await request.json()
+
+    try:
+        connection = await ConnectionRecord.retrieve_by_id(context, connection_id)
+    except StorageNotFoundError:
+        raise web.HTTPNotFound()
+
+    if connection.is_ready:
+        msg = DisplayLetter(letter=params["letter"],
+                            text_colour=params["text_colour"],
+                            back_colour=params["back_colour"])
+        await outbound_handler(msg, connection_id=connection_id)
+
+        conn_mgr = ConnectionManager(context)
+        await conn_mgr.log_activity(
+            connection,
+            "display_letter",
+            connection.DIRECTION_SENT,
+            {"content": params["letter"]},
+        )
+
+    return web.json_response({})
 
 async def register(app: web.Application):
     """Register routes."""
@@ -96,7 +128,11 @@ async def register(app: web.Application):
     )
 
     app.add_routes(
-        [web.post("/connections/{id}/display_text", connections_send_display_text_request)]
+        [web.post("/connections/{id}/display_message", connections_send_display_messaget_request)]
+    )
+
+    app.add_routes(
+        [web.post("/connections/{id}/display_letter", connections_send_display_letter_request)]
     )
 
 
