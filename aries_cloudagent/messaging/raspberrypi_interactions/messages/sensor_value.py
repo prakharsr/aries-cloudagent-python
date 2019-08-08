@@ -37,7 +37,7 @@ class SensorValue(AgentMessage):
         accelerometer: dict = None,
         compass: dict = None,
         gyroscope: dict = None,
-        stick_event: list = None,
+        stick_events: list = None,
         **kwargs
     ):
         """

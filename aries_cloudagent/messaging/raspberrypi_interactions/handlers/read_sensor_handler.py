@@ -67,7 +67,7 @@ class ReadSensorHandler(BaseHandler):
             compass = sense.get_compass_raw()
         if "gyroscope" in sensors:
             gyroscope = sense.get_gyroscope_raw()
-        if "stick_event" in sensors:
+        if "stick_events" in sensors:
             stick_event_objects = sense.stick.get_events()
             for event in stick_event_objects:
                 event_dict = {}
