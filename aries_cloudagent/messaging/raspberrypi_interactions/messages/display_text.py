@@ -48,8 +48,14 @@ class DisplayText(AgentMessage):
             sent_time = datetime_now()
         self.sent_time = datetime_to_str(sent_time)
         self.content = content
+        if not scroll_speed:
+            scroll_speed = 0.1
         self.scroll_speed = scroll_speed
+        if not text_colour:
+            text_colour = [255, 255, 255]
         self.text_colour = text_colour
+        if not back_colour:
+            back_colour = [0, 0, 0]
         self.back_colour = back_colour
         
 
