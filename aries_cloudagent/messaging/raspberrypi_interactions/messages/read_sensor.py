@@ -30,7 +30,7 @@ class ReadSensor(AgentMessage):
         self,
         *,
         sent_time: Union[str, datetime] = None,
-        sensors: list = None
+        sensors: list = None,
         **kwargs
     ):
         """
