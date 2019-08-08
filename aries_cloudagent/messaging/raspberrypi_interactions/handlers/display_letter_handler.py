@@ -47,7 +47,7 @@ class DisplayMessageHandler(BaseHandler):
 
         sense = SenseHat()
         sense.clear()
-        sense.show_message(content, text_colour=text_colour, back_colour=back_colour, scroll_speed=scroll_speed)
+        sense.show_letter(letter, text_colour=text_colour, back_colour=back_colour)
 
         reply_msg = BasicMessage(content="DisplayLetter message received")
             
