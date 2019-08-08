@@ -25,7 +25,7 @@ class SetPixelsHandler(BaseHandler):
 
         self._logger.info("Received pixels: %s", context.message.pixels)
 
-        letter = context.message.pixels
+        pixels = context.message.pixels
         meta = {"pixels": pixels}
 
         conn_mgr = ConnectionManager(context)
