@@ -32,7 +32,8 @@ class SensorValueHandler(BaseHandler):
                 "orientation" : orientation
                 "accelerometer" : accelerometer,
                 "compass" : compass,
-                "gyroscope" : gyroscope}
+                "gyroscope" : gyroscope,
+                "stick_event" : stick_event}
 
         conn_mgr = ConnectionManager(context)
         await conn_mgr.log_activity(

@@ -37,6 +37,7 @@ class SensorValue(AgentMessage):
         accelerometer: dict = None,
         compass: dict = None,
         gyroscope: dict = None,
+        stick_event: list = None,
         **kwargs
     ):
         """
@@ -58,6 +59,7 @@ class SensorValue(AgentMessage):
         self.accelerometer = accelerometer
         self.compass = compass
         self.gyroscope = gyroscope
+        self.stick_event = stick_event
 
 
 class SensorValueSchema(AgentMessageSchema):
@@ -77,3 +79,4 @@ class SensorValueSchema(AgentMessageSchema):
     accelerometer = fields.Dict(required=False)
     compass = fields.Dict(required=False)
     gyroscope = fields.Dict(required=False)
+    stick_event = fields.List(fields.Dict(), required=False)
