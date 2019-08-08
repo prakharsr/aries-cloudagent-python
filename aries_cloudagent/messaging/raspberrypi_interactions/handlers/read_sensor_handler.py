@@ -51,7 +51,7 @@ class ReadSensorHandler(BaseHandler):
         accelerometer = None
         compass = None
         gyroscope = None
-        stick_event = []
+        stick_events = []
 
         if "temperature" in sensors:
             temperature = sense.get_temperature()
@@ -68,7 +68,7 @@ class ReadSensorHandler(BaseHandler):
         if "gyroscope" in sensors:
             gyroscope = sense.get_gyroscope_raw()
         if "stick_event" in sensors:
-            stick_event_objects = sense.stick.get_event()
+            stick_event_objects = sense.stick.get_events()
             for event in stick_event_objects:
                 event_dict = {}
                 event_dict['timestamp'] = event.timestamp
@@ -83,7 +83,7 @@ class ReadSensorHandler(BaseHandler):
                                 accelerometer=accelerometer,
                                 compass=compass,
                                 gyroscope=gyroscope,
-                                stick_event=stick_event)
+                                stick_events=stick_events)
             
         await responder.send_reply(reply_msg)
         await conn_mgr.log_activity(

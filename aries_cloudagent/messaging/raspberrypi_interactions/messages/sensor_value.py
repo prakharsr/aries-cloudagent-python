@@ -59,7 +59,7 @@ class SensorValue(AgentMessage):
         self.accelerometer = accelerometer
         self.compass = compass
         self.gyroscope = gyroscope
-        self.stick_event = stick_event
+        self.stick_events = stick_events
 
 
 class SensorValueSchema(AgentMessageSchema):
@@ -79,4 +79,4 @@ class SensorValueSchema(AgentMessageSchema):
     accelerometer = fields.Dict(required=False)
     compass = fields.Dict(required=False)
     gyroscope = fields.Dict(required=False)
-    stick_event = fields.List(fields.Dict(), required=False)
+    stick_events = fields.List(fields.Dict(), required=False)
