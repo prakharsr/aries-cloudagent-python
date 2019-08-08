@@ -56,7 +56,7 @@ class ReadSensorHandler(BaseHandler):
         pressure = None
         humidity = None
         sense = SenseHat()
-        SenseHat.clear()
+        sense.clear()
         if read_temperature:
             temperature = sense.get_temperature()
         if read_humidity:

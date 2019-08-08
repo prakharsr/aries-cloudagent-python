@@ -52,7 +52,7 @@ class DisplayTextHandler(BaseHandler):
         )
 
         sense = SenseHat()
-        SenseHat.clear()
+        sense.clear()
         sense.show_message(content, text_colour=text_colour, back_colour=back_colour, scroll_speed=scroll_speed)
 
         reply_msg = BasicMessage(content="Display Text Message received")
