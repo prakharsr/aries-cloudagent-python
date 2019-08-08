@@ -5,8 +5,6 @@ from typing import Union
 
 from marshmallow import fields
 
-
-
 from ...agent_message import AgentMessage, AgentMessageSchema
 from ...util import datetime_now, datetime_to_str
 
@@ -52,6 +50,7 @@ class ReadSensor(AgentMessage):
         self.read_temperature = read_temperature
         self.read_pressure = read_pressure
         self.read_humidity = read_humidity
+        self.content = content
 
 
 class ReadSensorSchema(AgentMessageSchema):
