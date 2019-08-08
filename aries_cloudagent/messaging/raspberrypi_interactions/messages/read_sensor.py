@@ -45,7 +45,14 @@ class ReadSensor(AgentMessage):
             sent_time = datetime_now()
         self.sent_time = datetime_to_str(sent_time)
         if not sensors:
-            sensors = ["temperature", "pressure", "humidity"]
+            sensors =  ["temperature", 
+                        "pressure", 
+                        "humidity", 
+                        "orientation", 
+                        "accelerometer", 
+                        "compass", 
+                        "gyroscope"]
+                        
         self.sensors = sensors
 
 

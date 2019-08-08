@@ -47,6 +47,8 @@ class ReadSensorHandler(BaseHandler):
         temperature = None
         humidity = None
         pressure = None
+        orientation = None
+        accelerometer = None
 
         if "temperature" in sensors:
             temperature = sense.get_temperature()
@@ -54,8 +56,22 @@ class ReadSensorHandler(BaseHandler):
             humidity = sense.get_humidity()
         if "pressure" in sensors:
             pressure = sense.get_pressure()
+        if "orientation" in sensors:
+            orientation = sense.get_orientation_degrees()
+        if "accelerometer" in sensors:
+            accelerometer = sense.get_accelerometer_raw()
+        if "compass" in sensors:
+            compass = sense.get_compass_raw()
+        if "gyroscope" in sensors:
+            gyroscope = sense.get_gyroscope_raw()
 
-        reply_msg = SensorValue(temperature=temperature, humidity=humidity, pressure=pressure)
+        reply_msg = SensorValue(temperature=temperature, 
+                                humidity=humidity, 
+                                pressure=pressure,
+                                orientation=orientation,
+                                accelerometer=accelerometer,
+                                compass=compass,
+                                gyroscope=gyroscope)
             
         await responder.send_reply(reply_msg)
         await conn_mgr.log_activity(

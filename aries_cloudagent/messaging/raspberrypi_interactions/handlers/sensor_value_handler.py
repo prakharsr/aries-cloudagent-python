@@ -19,15 +19,18 @@ class SensorValueHandler(BaseHandler):
             responder: responder callback
         """
         self._logger.debug(f"SensorValueHandler called with context {context}")
-        assert isinstance(context.message, ReadSensorResponse)
+        assert isinstance(context.message, SensorValueHandler)
 
 
         temperature = context.message.temperature
         pressure = context.message.pressure
         humidity = context.message.humidity
+        orientation = context.message.orientation
         meta = {"temperature" : temperature,
                 "pressure" : pressure, 
-                "humidity" : humidity}
+                "humidity" : humidity,
+                "orientation" : orientation
+                "accelerometer" : accelerometer}
 
         conn_mgr = ConnectionManager(context)
         await conn_mgr.log_activity(

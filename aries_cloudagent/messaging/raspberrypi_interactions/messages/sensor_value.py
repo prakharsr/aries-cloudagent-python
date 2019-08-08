@@ -33,6 +33,10 @@ class SensorValue(AgentMessage):
         temperature: float = None,
         humidity: float = None,
         pressure: float = None,
+        orientation: dict = None,
+        accelerometer: dict = None,
+        compass: dict = None,
+        gyroscope: dict = None,
         **kwargs
     ):
         """
@@ -50,6 +54,10 @@ class SensorValue(AgentMessage):
         self.temperature = temperature
         self.pressure = pressure
         self.humidity = humidity
+        self.orientation = orientation
+        self.accelerometer = accelerometer
+        self.compass = compass
+        self.gyroscope = gyroscope
 
 
 class SensorValueSchema(AgentMessageSchema):
@@ -65,3 +73,7 @@ class SensorValueSchema(AgentMessageSchema):
     temperature = fields.Float(required=False)
     humidity = fields.Float(required=False)
     pressure = fields.Float(required=False)
+    orientation = fields.Dict(required=False)
+    accelerometer = fields.Dict(required=False)
+    compass = fields.Dict(required=False)
+    gyroscope = fields.Dict(required=False)
