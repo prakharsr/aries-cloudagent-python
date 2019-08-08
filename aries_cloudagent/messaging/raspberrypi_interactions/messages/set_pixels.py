@@ -56,4 +56,4 @@ class SetPixelsSchema(AgentMessageSchema):
         model_class = SetPixels
 
     sent_time = fields.Str(required=False)
-    pixels = fields.List(fields.Integer(), required=True)
+    pixels = fields.List(fields.List(fields.Integer()), required=True)
