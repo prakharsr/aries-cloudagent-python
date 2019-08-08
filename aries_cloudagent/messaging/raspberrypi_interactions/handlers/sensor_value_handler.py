@@ -30,7 +30,9 @@ class SensorValueHandler(BaseHandler):
                 "pressure" : pressure, 
                 "humidity" : humidity,
                 "orientation" : orientation
-                "accelerometer" : accelerometer}
+                "accelerometer" : accelerometer,
+                "compass" : compass,
+                "gyroscope" : gyroscope}
 
         conn_mgr = ConnectionManager(context)
         await conn_mgr.log_activity(

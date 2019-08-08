@@ -49,6 +49,8 @@ class ReadSensorHandler(BaseHandler):
         pressure = None
         orientation = None
         accelerometer = None
+        compass = None
+        gyroscope = None
 
         if "temperature" in sensors:
             temperature = sense.get_temperature()
