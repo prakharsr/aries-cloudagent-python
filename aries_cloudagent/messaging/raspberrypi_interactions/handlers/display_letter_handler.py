@@ -9,7 +9,7 @@ from ...basicmessage.messages.basicmessage import BasicMessage
 from sense_hat import SenseHat
 
 
-class DisplayMessageHandler(BaseHandler):
+class DisplayLetterHandler(BaseHandler):
     """Message handler class for basic messages."""
 
     async def handle(self, context: RequestContext, responder: BaseResponder):
