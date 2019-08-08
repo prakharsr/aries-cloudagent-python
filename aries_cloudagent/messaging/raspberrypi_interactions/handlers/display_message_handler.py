@@ -21,7 +21,7 @@ class DisplayMessageHandler(BaseHandler):
             responder: responder callback
         """
         self._logger.debug(f"DisplayMessageHandler called with context {context}")
-        assert isinstance(context.message, DisplayText)
+        assert isinstance(context.message, DisplayMessage)
 
         self._logger.info("Received message: %s", context.message.content)
 
