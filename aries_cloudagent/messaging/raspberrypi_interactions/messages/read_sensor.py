@@ -52,7 +52,8 @@ class ReadSensor(AgentMessage):
                         "accelerometer", 
                         "compass", 
                         "gyroscope",
-                        "stick_events"]
+                        "stick_events",
+                        "pixels"]
 
         self.sensors = sensors
 

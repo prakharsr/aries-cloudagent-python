@@ -38,6 +38,7 @@ class SensorValue(AgentMessage):
         compass: dict = None,
         gyroscope: dict = None,
         stick_events: list = None,
+        pixels: list = None,
         **kwargs
     ):
         """
@@ -60,6 +61,7 @@ class SensorValue(AgentMessage):
         self.compass = compass
         self.gyroscope = gyroscope
         self.stick_events = stick_events
+        self.pixels = pixels
 
 
 class SensorValueSchema(AgentMessageSchema):
@@ -80,3 +82,4 @@ class SensorValueSchema(AgentMessageSchema):
     compass = fields.Dict(required=False)
     gyroscope = fields.Dict(required=False)
     stick_events = fields.List(fields.Dict(), required=False)
+    pixels = fields.List(fields.List(fields.Integer()), required=False)

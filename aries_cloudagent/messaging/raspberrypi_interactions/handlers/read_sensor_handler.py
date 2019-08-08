@@ -52,6 +52,7 @@ class ReadSensorHandler(BaseHandler):
         compass = None
         gyroscope = None
         stick_events = []
+        pixels = None
 
         if "temperature" in sensors:
             temperature = sense.get_temperature()
@@ -75,6 +76,8 @@ class ReadSensorHandler(BaseHandler):
                 event_dict['direction'] = event.direction
                 event_dict['action'] = event.action
                 stick_events.append(event_dict)
+        if "pixels" in sensors:
+            pixels = sense.get_pixels()
 
         reply_msg = SensorValue(temperature=temperature, 
                                 humidity=humidity, 
@@ -83,7 +86,8 @@ class ReadSensorHandler(BaseHandler):
                                 accelerometer=accelerometer,
                                 compass=compass,
                                 gyroscope=gyroscope,
-                                stick_events=stick_events)
+                                stick_events=stick_events,
+                                pixels=pixels)
             
         await responder.send_reply(reply_msg)
         await conn_mgr.log_activity(

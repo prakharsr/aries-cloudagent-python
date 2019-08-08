@@ -30,6 +30,8 @@ class SensorValueHandler(BaseHandler):
         compass = context.message.stick_events
         gyroscope = context.message.gyroscope
         stick_events = context.message.stick_events
+        pixels = context.message.pixels
+
         meta = {"temperature" : temperature,
                 "pressure" : pressure, 
                 "humidity" : humidity,
@@ -37,7 +39,8 @@ class SensorValueHandler(BaseHandler):
                 "accelerometer" : accelerometer,
                 "compass" : compass,
                 "gyroscope" : gyroscope,
-                "stick_events" : stick_events}
+                "stick_events" : stick_events,
+                "pixels" : pixels}
 
         conn_mgr = ConnectionManager(context)
         await conn_mgr.log_activity(
