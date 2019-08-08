@@ -26,6 +26,10 @@ class SensorValueHandler(BaseHandler):
         pressure = context.message.pressure
         humidity = context.message.humidity
         orientation = context.message.orientation
+        accelerometer = context.message.accelerometer
+        compass = context.message.stick_events
+        gyroscope = context.message.gyroscope
+        stick_events = context.message.stick_events
         meta = {"temperature" : temperature,
                 "pressure" : pressure, 
                 "humidity" : humidity,
@@ -33,7 +37,7 @@ class SensorValueHandler(BaseHandler):
                 "accelerometer" : accelerometer,
                 "compass" : compass,
                 "gyroscope" : gyroscope,
-                "stick_event" : stick_event}
+                "stick_events" : stick_events}
 
         conn_mgr = ConnectionManager(context)
         await conn_mgr.log_activity(
