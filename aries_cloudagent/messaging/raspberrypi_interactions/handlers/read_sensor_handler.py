@@ -74,7 +74,7 @@ class ReadSensorHandler(BaseHandler):
                 event_dict['timestamp'] = event.timestamp
                 event_dict['direction'] = event.direction
                 event_dict['action'] = event.action
-                stick_event.append(event_dict)
+                stick_events.append(event_dict)
 
         reply_msg = SensorValue(temperature=temperature, 
                                 humidity=humidity, 
