@@ -47,7 +47,6 @@ class DisplayLetter(AgentMessage):
             sent_time = datetime_now()
         self.sent_time = datetime_to_str(sent_time)
         self.letter = letter
-        self.scroll_speed = scroll_speed
         if not text_colour:
             text_colour = [255, 255, 255]
         self.text_colour = text_colour
