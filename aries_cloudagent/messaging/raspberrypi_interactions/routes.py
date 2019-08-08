@@ -120,6 +120,39 @@ async def connections_send_display_letter_request(request: web.BaseRequest):
 
     return web.json_response({})
 
+@docs(tags=["set_pixels"], summary="Send a set_pixels message to a connection")
+async def connections_send_display_letter_request(request: web.BaseRequest):
+    """
+    Request handler for sending a raspberry pi read Sensor requestto a connection.
+
+    Args:
+        request: aiohttp request object
+
+    """
+    context = request.app["request_context"]
+    connection_id = request.match_info["id"]
+    outbound_handler = request.app["outbound_message_router"]
+    params = await request.json()
+
+    try:
+        connection = await ConnectionRecord.retrieve_by_id(context, connection_id)
+    except StorageNotFoundError:
+        raise web.HTTPNotFound()
+
+    if connection.is_ready:
+        msg = SetPixels(pixels=params["pixels"])
+        await outbound_handler(msg, connection_id=connection_id)
+
+        conn_mgr = ConnectionManager(context)
+        await conn_mgr.log_activity(
+            connection,
+            "set_pixels",
+            connection.DIRECTION_SENT,
+            {"content": params["letter"]},
+        )
+
+    return web.json_response({})
+
 async def register(app: web.Application):
     """Register routes."""
 
@@ -133,6 +166,10 @@ async def register(app: web.Application):
 
     app.add_routes(
         [web.post("/connections/{id}/display_letter", connections_send_display_letter_request)]
+    )
+
+    app.add_routes(
+        [web.post("/connections/{id}/set_pixels", connections_send_set_pixels_request)]
     )
 
 

@@ -43,7 +43,6 @@ class ReadSensorHandler(BaseHandler):
         )
 
         sense = SenseHat()
-        sense.clear()
         temperature = None
         humidity = None
         pressure = None
@@ -51,7 +50,7 @@ class ReadSensorHandler(BaseHandler):
         accelerometer = None
         compass = None
         gyroscope = None
-        stick_events = []
+        stick_events = None
         pixels = None
 
         if "temperature" in sensors:
@@ -69,6 +68,7 @@ class ReadSensorHandler(BaseHandler):
         if "gyroscope" in sensors:
             gyroscope = sense.get_gyroscope_raw()
         if "stick_events" in sensors:
+            stick_events = []
             stick_event_objects = sense.stick.get_events()
             for event in stick_event_objects:
                 event_dict = {}
