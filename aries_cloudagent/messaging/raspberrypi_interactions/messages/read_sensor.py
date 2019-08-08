@@ -30,10 +30,7 @@ class ReadSensor(AgentMessage):
         self,
         *,
         sent_time: Union[str, datetime] = None,
-        read_temperature: bool = True,
-        read_pressure: bool = True,
-        read_humidity: bool = True,
-        content: str = None,
+        sensors: list = None
         **kwargs
     ):
         """
@@ -47,10 +44,9 @@ class ReadSensor(AgentMessage):
         if not sent_time:
             sent_time = datetime_now()
         self.sent_time = datetime_to_str(sent_time)
-        self.read_temperature = read_temperature
-        self.read_pressure = read_pressure
-        self.read_humidity = read_humidity
-        self.content = content
+        if not sensors:
+            sensors = ["temperature", "pressure", "humidity"]
+        self.sensors = sensors
 
 
 class ReadSensorSchema(AgentMessageSchema):
@@ -63,7 +59,4 @@ class ReadSensorSchema(AgentMessageSchema):
 
     sent_time = fields.Str(required=False)
     content = fields.Str(required=True)
-
-    read_temperature = fields.Bool(default=True, required=False)
-    read_pressure = fields.Bool(default=True, required=False)
-    read_humidity = fields.Bool(default=True, required=False)
+    sensors = fields.List(fields.Str(), required=True)

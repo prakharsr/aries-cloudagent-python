@@ -23,20 +23,11 @@ class ReadSensorHandler(BaseHandler):
         self._logger.debug(f"ReadSensorHandler called with context {context}")
         assert isinstance(context.message, ReadSensor)
 
-        self._logger.info("Received read sensor: %s", context.message.content)
+        self._logger.info("Received read sensor: %s", context.message.sensors)
 
-        body = context.message.content
-        read_temperature = context.message.read_temperature
-        read_pressure = context.message.read_pressure
-        read_humidity = context.message.read_humidity
-        meta = {"content": body, 
-                "read_temperature" : read_temperature,
-                "read_pressure" : read_pressure, 
-                "read_humidity" : read_humidity}
+        sensors = context.message.sensors
 
-        # For Workshop: mark invitations as copyable
-        if context.message.content and context.message.content.startswith("http"):
-            meta["copy_invite"] = True
+        meta = {"sensors": sensors}
 
         conn_mgr = ConnectionManager(context)
         await conn_mgr.log_activity(
@@ -51,17 +42,13 @@ class ReadSensorHandler(BaseHandler):
             {"message_id": context.message._id, "content": body, "state": "received"},
         )
 
-        reply = None
-        temperature = None
-        pressure = None
-        humidity = None
         sense = SenseHat()
         sense.clear()
-        if read_temperature:
+        if "temperature" in sensors:
             temperature = sense.get_temperature()
-        if read_humidity:
+        if "humidity" in sensors:
             humidity = sense.get_humidity()
-        if read_pressure:
+        if "pressure" in sensors:
             pressure = sense.get_pressure()
 
         reply_msg = ReadSensorResponse(content="reply", temperature=temperature, humidity=humidity, pressure=pressure)
