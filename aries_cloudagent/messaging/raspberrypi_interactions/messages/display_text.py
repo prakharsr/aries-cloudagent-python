@@ -66,5 +66,5 @@ class DisplayTextSchema(AgentMessageSchema):
     content = fields.Str(required=True)
 
     scroll_speed = fields.Float(default=0.1, required=False)
-    text_colour = fields.List(default=[255,255,255], required=False)
-    back_colour = fields.List(default=[0,0,0], required=False)
+    text_colour = fields.List(fields.Integer(), default=[255,255,255], required=False)
+    back_colour = fields.List(fields.Integer(), default=[0,0,0], required=False)
