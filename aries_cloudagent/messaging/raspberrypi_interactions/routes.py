@@ -121,7 +121,7 @@ async def connections_send_display_letter_request(request: web.BaseRequest):
     return web.json_response({})
 
 @docs(tags=["set_pixels"], summary="Send a set_pixels message to a connection")
-async def connections_send_display_letter_request(request: web.BaseRequest):
+async def connections_send_set_pixels_request(request: web.BaseRequest):
     """
     Request handler for sending a raspberry pi read Sensor requestto a connection.
 
@@ -161,7 +161,7 @@ async def register(app: web.Application):
     )
 
     app.add_routes(
-        [web.post("/connections/{id}/display_message", connections_send_display_messaget_request)]
+        [web.post("/connections/{id}/display_message", connections_send_display_message_request)]
     )
 
     app.add_routes(
