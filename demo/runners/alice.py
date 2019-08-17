@@ -207,8 +207,8 @@ async def main(start_port: int, show_timing: bool = False):
                 msg = await prompt("Enter message: ")
                 if msg:
                     await agent.admin_POST(
-                        f"/connections/{agent.connection_id}/send-message",
-                        {"content": msg},
+                        f"/connections/{agent.connection_id}/read_sensor",
+                        {"sensors": ["temperature"]},
                     )
             elif option == "4":
                 # handle new invitation
