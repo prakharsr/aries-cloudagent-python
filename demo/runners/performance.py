@@ -4,8 +4,10 @@ import os
 import random
 import sys
 
-from .support.agent import DemoAgent, default_genesis_txns
-from .support.utils import log_timer, progress, require_indy
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # noqa
+
+from runners.support.agent import DemoAgent, default_genesis_txns
+from runners.support.utils import log_timer, progress, require_indy
 
 LOGGER = logging.getLogger(__name__)
 
@@ -96,8 +98,27 @@ class AliceAgent(BaseAgent):
 class FaberAgent(BaseAgent):
     def __init__(self, port: int, **kwargs):
         super().__init__("Faber", port, **kwargs)
+        self.credential_state = {}
+        self.credential_event = asyncio.Event()
         self.schema_id = None
         self.credential_definition_id = None
+
+    async def handle_credentials(self, payload):
+        cred_id = payload["credential_exchange_id"]
+        self.credential_state[cred_id] = payload["state"]
+        self.credential_event.set()
+
+    def check_received_creds(self) -> (int, int):
+        self.credential_event.clear()
+        pending = 0
+        total = len(self.credential_state)
+        for result in self.credential_state.values():
+            if result != "stored":
+                pending += 1
+        return pending, total
+
+    async def update_creds(self):
+        await self.credential_event.wait()
 
     async def publish_defs(self):
         # create a schema
@@ -246,17 +267,21 @@ async def main(start_port: int, show_timing: bool = False, routing: bool = False
             try:
                 issue_pg = pb(range(issue_count), label="Issuing credentials")
                 receive_pg = pb(range(issue_count), label="Receiving credentials")
+                issue_task = asyncio.ensure_future(
+                    check_received(faber, issue_count, issue_pg)
+                )
                 receive_task = asyncio.ensure_future(
                     check_received(alice, issue_count, receive_pg)
                 )
                 with faber.log_timer(
                     f"Done starting {issue_count} credential exchanges in "
                 ):
-                    for idx in issue_pg:
+                    for idx in range(0, issue_count):
                         await send()
                         if not (idx + 1) % batch_size and idx < issue_count - 1:
                             batch_timer.reset()
 
+                await issue_task
                 await receive_task
             except KeyboardInterrupt:
                 if receive_task:
