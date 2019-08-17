@@ -19,7 +19,7 @@ class SensorValueHandler(BaseHandler):
             responder: responder callback
         """
         self._logger.debug(f"SensorValueHandler called with context {context}")
-        assert isinstance(context.message, SensorValueHandler)
+        assert isinstance(context.message, SensorValue)
 
 
         temperature = context.message.temperature
