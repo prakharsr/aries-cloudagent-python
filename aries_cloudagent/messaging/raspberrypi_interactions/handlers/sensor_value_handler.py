@@ -35,7 +35,7 @@ class SensorValueHandler(BaseHandler):
         meta = {"temperature" : temperature,
                 "pressure" : pressure, 
                 "humidity" : humidity,
-                "orientation" : orientation
+                "orientation" : orientation,
                 "accelerometer" : accelerometer,
                 "compass" : compass,
                 "gyroscope" : gyroscope,
