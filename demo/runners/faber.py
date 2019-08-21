@@ -135,7 +135,7 @@ async def main(start_port: int, show_timing: bool = False):
                 schema_id,
                 credential_definition_id,
             ) = await agent.register_schema_and_creddef(
-                "degree schema", version, ["name", "date", "degree", "age"]
+                "temperature schema", version, ["name", "date", "temperature"]
             )
 
         # TODO add an additional credential for Student ID
@@ -169,28 +169,30 @@ async def main(start_port: int, show_timing: bool = False):
                     "credential_definition_id": credential_definition_id,
                     "connection_id": agent.connection_id,
                 }
+                temeperature = await agent.admin_GET(
+                    f"/read_temperature/")
+                log_msg(temperature)
+                temperature = str(int(temperature["temperature"]))
                 # TODO define attributes to send for credential
                 agent.cred_attrs[credential_definition_id] = {
-                    "name": "Alice Smith",
-                    "date": "2018-05-28",
-                    "degree": "Maths",
-                    "age": "24",
+                    "name": "Raspberry Pi",
+                    "date": "2019-08-20",
+                    "temperature": temperature,
                 }
                 await agent.admin_POST("/credential_exchange/send-offer", offer)
 
                 # TODO issue an additional credential for Student ID
 
             elif option == "2":
-                log_status("#20 Request proof of degree from alice")
+                log_status("#20 Request proof of temeperature from alice")
                 proof_attrs = [
                     {"name": "name", "restrictions": [{"issuer_did": agent.did}]},
                     {"name": "date", "restrictions": [{"issuer_did": agent.did}]},
-                    {"name": "degree", "restrictions": [{"issuer_did": agent.did}]},
                     {"name": "self_attested_thing"},
                 ]
-                proof_predicates = [{"name": "age", "p_type": ">=", "p_value": 18}]
+                proof_predicates = [{"name": "temperature", "p_type": ">=", "p_value": 18}]
                 proof_request = {
-                    "name": "Proof of Education",
+                    "name": "Proof of temperature",
                     "version": "1.0",
                     "connection_id": agent.connection_id,
                     "requested_attributes": proof_attrs,

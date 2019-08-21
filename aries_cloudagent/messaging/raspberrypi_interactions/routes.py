@@ -13,11 +13,27 @@ from ..connections.models.connection_record import ConnectionRecord
 from .messages.read_sensor import ReadSensor
 
 
+@docs(tags=["read_sensor"], summary="Read temperature locally")
+async def read_temperature(request: web.BaseRequest):
+    """
+    Request handler for retrieving local sensor data.
+
+    Args:
+        request: aiohttp request object
+
+    """
+    context = request.app["request_context"]
+    sense = SenseHat()
+    temperature = sense.get_temperature()
+
+    return web.json_response({"temperature", temperature})
+
+
 @docs(tags=["read_sensor"], summary="Send a read_sensor message to a connection")
 # @request_schema(ReadSensorSchema())
 async def connections_send_read_sensor_request(request: web.BaseRequest):
     """
-    Request handler for sending a raspberry pi read Sensor requestto a connection.
+    Request handler for sending a raspberry pi read Sensor request to a connection.
 
     Args:
         request: aiohttp request object
@@ -157,19 +173,13 @@ async def register(app: web.Application):
     """Register routes."""
 
     app.add_routes(
-        [web.post("/connections/{id}/read_sensor", connections_send_read_sensor_request)]
-    )
-
-    app.add_routes(
-        [web.post("/connections/{id}/display_message", connections_send_display_message_request)]
-    )
-
-    app.add_routes(
-        [web.post("/connections/{id}/display_letter", connections_send_display_letter_request)]
-    )
-
-    app.add_routes(
-        [web.post("/connections/{id}/set_pixels", connections_send_set_pixels_request)]
+        [
+            web.get("/read_temperature", read_temperature)
+            web.post("/connections/{id}/read_sensor", connections_send_read_sensor_request),
+            web.post("/connections/{id}/display_message", connections_send_display_message_request),
+            web.post("/connections/{id}/display_letter", connections_send_display_letter_request),
+            web.post("/connections/{id}/set_pixels", connections_send_set_pixels_request)
+        ]
     )
 
 
