@@ -2,7 +2,6 @@
 
 from aiohttp import web
 from aiohttp_apispec import docs, request_schema
-from sense_hat import SenseHat
 
 from marshmallow import fields, Schema
 
@@ -23,11 +22,13 @@ async def read_temperature(request: web.BaseRequest):
         request: aiohttp request object
 
     """
+    from sense_hat import SenseHat
     context = request.app["request_context"]
     sense = SenseHat()
-    temperature = await sense.get_temperature()
-
-    return web.json_response({"temperature", temperature})
+    temperature = sense.get_temperature()
+    temperature = int(str(temperature))
+    
+    return web.json_response({"temperature": temperature})
 
 
 @docs(tags=["read_sensor"], summary="Send a read_sensor message to a connection")

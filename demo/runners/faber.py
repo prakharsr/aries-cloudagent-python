@@ -169,10 +169,10 @@ async def main(start_port: int, show_timing: bool = False):
                     "credential_definition_id": credential_definition_id,
                     "connection_id": agent.connection_id,
                 }
-                temeperature = await agent.admin_GET(
+                temperature = await agent.admin_GET(
                     f"/read_temperature")
                 log_msg(temperature)
-                temperature = str(int(temperature["temperature"]))
+                temperature = temperature["temperature"]
                 # TODO define attributes to send for credential
                 agent.cred_attrs[credential_definition_id] = {
                     "name": "Raspberry Pi",
