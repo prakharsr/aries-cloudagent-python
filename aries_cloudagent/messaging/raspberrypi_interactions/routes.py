@@ -174,11 +174,11 @@ async def register(app: web.Application):
 
     app.add_routes(
         [
-            web.get("/read_temperature", read_temperature)
+            web.get("/read_temperature", read_temperature),
             web.post("/connections/{id}/read_sensor", connections_send_read_sensor_request),
             web.post("/connections/{id}/display_message", connections_send_display_message_request),
             web.post("/connections/{id}/display_letter", connections_send_display_letter_request),
-            web.post("/connections/{id}/set_pixels", connections_send_set_pixels_request)
+            web.post("/connections/{id}/set_pixels", connections_send_set_pixels_request),
         ]
     )
 
