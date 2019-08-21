@@ -170,7 +170,7 @@ async def main(start_port: int, show_timing: bool = False):
                     "connection_id": agent.connection_id,
                 }
                 temeperature = await agent.admin_GET(
-                    f"/read_temperature/")
+                    f"/read_temperature")
                 log_msg(temperature)
                 temperature = str(int(temperature["temperature"]))
                 # TODO define attributes to send for credential
