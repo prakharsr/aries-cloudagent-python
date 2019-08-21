@@ -2,6 +2,7 @@
 
 from aiohttp import web
 from aiohttp_apispec import docs, request_schema
+from sense_hat import SenseHat
 
 from marshmallow import fields, Schema
 
