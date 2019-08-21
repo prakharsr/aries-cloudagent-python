@@ -24,7 +24,7 @@ async def read_temperature(request: web.BaseRequest):
     """
     context = request.app["request_context"]
     sense = SenseHat()
-    temperature = sense.get_temperature()
+    temperature = await sense.get_temperature()
 
     return web.json_response({"temperature", temperature})
 
