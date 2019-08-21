@@ -11,6 +11,9 @@ from ..connections.manager import ConnectionManager
 from ..connections.models.connection_record import ConnectionRecord
 
 from .messages.read_sensor import ReadSensor
+from .messages.display_message import DisplayMessage
+from .messages.display_letter import DisplayLetter
+from .messages.set_pixels import SetPixels
 
 
 @docs(tags=["read_sensor"], summary="Read temperature locally")

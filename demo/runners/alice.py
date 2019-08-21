@@ -157,6 +157,9 @@ class AliceAgent(DemoAgent):
     async def handle_basicmessages(self, message):
         self.log("Received message:", message["content"])
 
+    async def handle_sensorvalue(self, message):
+        self.log("Sensor Value:", message["content"])
+
 
 async def input_invitation(agent):
     async for details in prompt_loop("Invite details: "):
@@ -201,18 +204,34 @@ async def main(start_port: int, show_timing: bool = False):
         await input_invitation(agent)
 
         async for option in prompt_loop(
-            "(3) Send Message (4) Input New Invitation (X) Exit? [3/4/X]: "
+            "(3) Read Sensor (4) Display Message (5) Display Letter "
+             "(6) Input New Invitation (X) Exit? [3/4/5/6/X]: "
         ):
             if option is None or option in "xX":
                 break
             elif option == "3":
-                msg = await prompt("Enter message: ")
+                msg = await prompt("Enter sensor names: ")
                 if msg:
                     await agent.admin_POST(
                         f"/connections/{agent.connection_id}/read_sensor",
-                        {"sensors": ["temperature"]},
+                        {"sensors": msg.split()},
                     )
             elif option == "4":
+                msg = await prompt("Enter your message: ")
+                if msg:
+                    await agent.admin_POST(
+                        f"/connections/{agent.connection_id}/display_message",
+                        {"content": msg, "scroll_speed": None,
+                        "text_colour": None, "back_colour": None},
+                    )
+            elif option == "5":
+                msg = await prompt("Enter your letter: ")
+                if len(msg) == 1:
+                    await agent.admin_POST(
+                        f"/connections/{agent.connection_id}/display_letter",
+                        {"letter": msg, "text_colour": None, "back_colour": None},
+                    )
+            elif option == "6":
                 # handle new invitation
                 log_status("Input new invitation details")
                 await input_invitation(agent)

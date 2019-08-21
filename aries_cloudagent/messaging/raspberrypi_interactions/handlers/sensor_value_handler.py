@@ -50,4 +50,14 @@ class SensorValueHandler(BaseHandler):
             meta,
         )
 
+        await responder.send_webhook(
+            "sensorvalue",
+            {
+                "connection_id": context.connection_record.connection_id,
+                "message_id": context.message._id,
+                "content": meta,
+                "state": "received"
+            },
+        )
+
         
